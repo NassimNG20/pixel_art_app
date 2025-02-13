@@ -2,14 +2,14 @@
 //
 //
 //
-import { DeleteMe } from "@/deleteMe/layout";
-//
 //
 //
 //
 
+import MainPage from "@/components/mainPage";
+
 const App = () => {
-  return <DeleteMe />;
+  return <MainPage />;
 };
 
 export default App;

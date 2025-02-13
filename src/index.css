@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 #root {
   height: 100vh;
@@ -13,4 +14,7 @@ body {
   height: 100%;
   font-family: sans-serif;
   overflow: hidden;
+}
+:root {
+  --themeColor: rgb(15, 91, 161);
 }

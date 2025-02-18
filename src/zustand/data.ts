@@ -14,10 +14,10 @@ export const data: CanvasDataTypes = {
     opacity: 0.1,
   },
   canvas: {
-    width: 64,
-    height: 64,
+    width: 16,
+    height: 16,
     scale: 4,
-    boundingClientRect: {
+    rect: {
       height: 0,
       width: 0,
       top: 0,
@@ -29,6 +29,10 @@ export const data: CanvasDataTypes = {
     },
   },
   pixels: [],
+  history: {
+    index: 0,
+    historyStack: [],
+  },
   selectedPixel: {
     color: "white",
     width: 1,
@@ -36,11 +40,11 @@ export const data: CanvasDataTypes = {
     x: -1,
     y: -1,
   },
-  actions: ["pen", "square", "colors"],
+  actions: ["pen", "square"],
   current: {
-    action: "pen",
+    tool: "pen",
+    color: "#fff",
   },
-
   client: {
     x: 0,
     y: 0,
@@ -48,41 +52,26 @@ export const data: CanvasDataTypes = {
     isClicked: false,
     isHovering: false,
   },
+  state: {
+    showColorsBar: false,
+    showContextMenu: false,
+  },
   themeColor: "var(--themeColor)",
 };
 
-export type PixelTypes = {
-  id: string;
-  x: number;
-  y: number;
-  color: string;
-  height: number;
-  width: number;
-};
-export type BoundingClientRectTypes = {
-  bottom: number;
-  height: number;
-  left: number;
-  right: number;
-  top: number;
-  width: number;
-  x: number;
-  y: number;
-};
-type CanvasStateTypes = {
-  width: number;
-  height: number;
-  scale: number;
-  boundingClientRect: BoundingClientRectTypes;
+export type CanvasDataTypes = {
+  grid: GridTypes;
+  selectedPixel: SelectedPixelTypes;
+  canvas: CanvasStateTypes;
+  pixels: PixelTypes[];
+  client: ClientTypes;
+  current: CurrentTypes;
+  actions: ActionsBarTypes[];
+  state: StateTypes;
+  history: HistoryTYpes;
+  themeColor: string;
 };
 
-type InteractionStateTypes = {
-  x: number;
-  y: number;
-  isHolding: boolean;
-  isClicked: boolean;
-  isHovering: boolean;
-};
 type GridTypes = {
   isVisible: boolean;
   opacity: number;
@@ -95,18 +84,51 @@ export type SelectedPixelTypes = {
   x: number;
   y: number;
 };
-export type ActionsBarTypes = "pen" | "square" | "colors";
+type CanvasStateTypes = {
+  width: number;
+  height: number;
+  scale: number;
+  rect: BoundingClientRectTypes;
+};
+
+export type PixelTypes = {
+  id: string;
+  x: number;
+  y: number;
+  color: string;
+  height: number;
+  width: number;
+};
+type HistoryTYpes = { index: number; historyStack: PixelTypes[][] };
+type ClientTypes = {
+  x: number;
+  y: number;
+
+  isHolding: boolean;
+  isClicked: boolean;
+  isHovering: boolean;
+};
 
 export type CurrentTypes = {
-  action: ActionsBarTypes;
+  tool: ActionsBarTypes;
+  color: string;
 };
-export type CanvasDataTypes = {
-  grid: GridTypes;
-  selectedPixel: SelectedPixelTypes;
-  canvas: CanvasStateTypes;
-  pixels: PixelTypes[];
-  client: InteractionStateTypes;
-  current: CurrentTypes;
-  actions: ActionsBarTypes[];
-  themeColor: string;
+type StateTypes = {
+  showColorsBar: boolean;
+  showContextMenu: boolean;
 };
+export type StatesKeysTypes = "showContextMenu" | "showColorsBar";
+
+/*====================================================*/
+export type BoundingClientRectTypes = {
+  bottom: number;
+  height: number;
+  left: number;
+  right: number;
+  top: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
+export type ActionsBarTypes = "pen" | "square";

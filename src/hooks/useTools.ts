@@ -13,21 +13,16 @@ import { ActionsTypes } from "@/zustand/actions";
 import { ActionsBarTypes, SelectedPixelTypes } from "@/zustand/data";
 
 //
-export const SwitchTools = ({
-  isHolding,
-  methods,
-  currentTool,
-  sp,
-}: SwitchToolsTypes) => {
+export const SwitchTools = (props: SwitchToolsTypes) => {
+  const { isHolding, methods, currentTool, selectedPixel } = props;
+
   if (!isHolding) return;
   switch (currentTool) {
     case "pen":
       Pen_addPixel(methods, {
-        x: sp.x,
-        y: sp.y,
-        width: sp.width,
-        height: sp.height,
-        color: sp.color,
+        x: selectedPixel.x,
+        y: selectedPixel.y,
+        color: selectedPixel.color,
       });
       break;
     case "square":
@@ -44,5 +39,5 @@ interface SwitchToolsTypes {
   isHolding: boolean;
   methods: ActionsTypes["methods"];
   currentTool: ActionsBarTypes;
-  sp: SelectedPixelTypes;
+  selectedPixel: SelectedPixelTypes;
 }

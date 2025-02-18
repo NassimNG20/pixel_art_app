@@ -8,10 +8,9 @@
 import { SelectedPixelTypes } from "@/zustand/data";
 
 //
-export const SelectedPixel = (
-  ctx: CanvasRenderingContext2D,
-  selectedPixel: SelectedPixelTypes
-) => {
+export const SelectedPixel = (props: SelectedPixelPropsTypes) => {
+  const { ctx, selectedPixel } = props;
+
   ctx.fillStyle = selectedPixel.color;
   ctx.fillRect(
     selectedPixel.x,
@@ -19,4 +18,12 @@ export const SelectedPixel = (
     selectedPixel.width,
     selectedPixel.height
   );
+};
+//
+//
+//
+//
+type SelectedPixelPropsTypes = {
+  ctx: CanvasRenderingContext2D;
+  selectedPixel: SelectedPixelTypes;
 };

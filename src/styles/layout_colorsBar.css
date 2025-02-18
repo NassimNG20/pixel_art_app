@@ -1,0 +1,22 @@
+.colorsBar {
+  position: absolute;
+
+  transition: 0.2s;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.colorButton {
+  width: 25px;
+  aspect-ratio: 1 / 1;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.02s;
+}
+.colorButton:hover {
+  transform: scale(1.1);
+}

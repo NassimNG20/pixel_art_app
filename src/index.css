@@ -14,7 +14,9 @@ body {
   height: 100%;
   font-family: sans-serif;
   overflow: hidden;
+  user-select: none;
 }
 :root {
-  --themeColor: rgb(15, 91, 161);
+  --themeColor: #0f5ba1;
+  --borderColor: white;
 }

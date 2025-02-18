@@ -1,9 +1,0 @@
-.colorPicker {
-  border: 1px solid red;
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  width: fit-content;
-  height: fit-content;
-  transition: 0.2s;
-}

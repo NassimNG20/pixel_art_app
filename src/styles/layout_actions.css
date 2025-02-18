@@ -16,7 +16,7 @@
   gap: 2px;
   border-radius: 5px;
   z-index: 999999;
-  border: 1px solid #ffffff10;
+  border: 1px solid var(--borderColor);
   overflow: hidden;
   padding: 2px 2px;
 }

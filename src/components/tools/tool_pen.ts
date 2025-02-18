@@ -13,9 +13,9 @@ export const Pen_addPixel = (
   methods: ActionsTypes["methods"],
   props: Pen_addPixelProps
 ) => {
-  const { x, y, color, width, height } = props;
+  const { x, y, color } = props;
   const newID = `ID:${x}-${y}`;
-  methods.setPenAddPixel({ x, y, width, height, color, id: newID });
+  methods.setPenAddPixel({ x, y, width: 1, height: 1, color, id: newID });
 };
 //
 //
@@ -24,7 +24,5 @@ export const Pen_addPixel = (
 interface Pen_addPixelProps {
   x: number;
   y: number;
-  width: number;
-  height: number;
   color: string;
 }

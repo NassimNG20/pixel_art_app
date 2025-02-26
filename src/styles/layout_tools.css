@@ -1,0 +1,31 @@
+.tools {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 5px;
+  border: 1px solid var(--borderColor);
+  overflow: hidden;
+  padding: 2px 2px;
+
+  z-index: var(--index_tools);
+}
+.tools_button {
+  background-color: #ff000000;
+  width: 30px;
+  aspect-ratio: 1/1;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 3px;
+}
+.tools_button:hover {
+  background-color: #ffffff10;
+}

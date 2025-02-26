@@ -1,0 +1,9 @@
+:root {
+  --index_canvas: 100;
+  --index_tools: 95;
+  --index_colors_bar: 90;
+  --index_grid: 85;
+
+  --borderColor: white;
+  --themeColor: #0f5ba1;
+}

@@ -19,10 +19,17 @@ export type MainStoreTypes = CanvasDataTypes & ActionsTypes & PixelStoreTypes;
 //
 //
 
-const useStore = create<MainStoreTypes>()((set, get, store) => ({
-  ...Methods(set),
-  ...ActionsPixelStore(set, get, store),
-  ...data,
-}));
+const useStore = create<MainStoreTypes>()((set, get, store) => {
+  const actionsPixelStore = ActionsPixelStore(
+    set,
+    get,
+    store
+  ) as PixelStoreTypes;
+  return {
+    ...Methods(set),
+    ...actionsPixelStore,
+    ...data,
+  };
+});
 
 export default useStore;

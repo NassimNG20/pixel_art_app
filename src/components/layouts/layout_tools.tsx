@@ -28,7 +28,7 @@ import "@/styles/layout_tools.css";
 
 export const Layout_tools = memo(() => {
   const actions = useStore((e) => e.tools);
-  const current = useStore((e) => e.current);
+  const tool = useStore((e) => e.current.tool);
   const methods = useStore((e) => e.methods);
 
   return (
@@ -44,8 +44,7 @@ export const Layout_tools = memo(() => {
           <Button
             key={i}
             style={{
-              backgroundColor:
-                e.name === current.tool ? "var(--themeColor)" : "",
+              backgroundColor: e.name === tool ? "var(--themeColor)" : "",
             }}
             onClick={() => methods.setCurrent("tool", e.name)}
           >

@@ -22,7 +22,11 @@ export const MainPage = () => {
   const methods = useStore((e) => e.methods);
   const canvas = useStore((e) => e.canvas);
 
+  let lastUpdate = 0;
   const move = (e: React.MouseEvent) => {
+    if (performance.now() - lastUpdate < 16) return; // Limit updates to ~60 FPS
+    lastUpdate = performance.now();
+
     const canvasStartWidth = e.clientX - canvas.rect.left;
     const canvasStartHeight = e.clientY - canvas.rect.top;
 
@@ -32,6 +36,7 @@ export const MainPage = () => {
     const pixel_y = Math.floor(
       canvasStartHeight / (canvas.rect.height / canvas.size)
     );
+
     methods.setClient("position", { x: pixel_x, y: pixel_y });
   };
 
@@ -39,16 +44,12 @@ export const MainPage = () => {
     <div
       className="app"
       onMouseMove={move}
-      onContextMenu={(e) => {
-        e.preventDefault();
-      }}
+      onContextMenu={(e) => e.preventDefault()}
       onMouseDown={(e) => onMouseDown({ event: e, methods })}
-      onMouseUp={(e) => {
-        onMouseUp({ event: e, methods });
-      }}
+      onMouseUp={(e) => onMouseUp({ event: e, methods })}
     >
       <div className="canvas_container">
-        <Grid />
+        <Grid canvas={canvas} />
         <Canvas />
       </div>
       <Layout_tools />

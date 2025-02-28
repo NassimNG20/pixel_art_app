@@ -16,15 +16,16 @@ export const useLoop = (
   );
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvasRef.current) return;
 
-    const ctx = canvas.getContext("2d");
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
     let animationFrameId: number;
 
     const loop = () => {
+      if (!canvasRef.current) return; // Avoid running on unmounted component
       render(ctx);
       animationFrameId = requestAnimationFrame(loop);
     };
@@ -32,7 +33,7 @@ export const useLoop = (
     animationFrameId = requestAnimationFrame(loop);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [render]);
+  }, [render, canvasRef]);
 
   return { canvasRef, frameCount };
 };

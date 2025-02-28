@@ -1,7 +1,7 @@
 export const data = {
   canvas: {
     size: 128,
-    scale: 128,
+    scale: 1,
     rect: {
       x: 0,
       y: 0,
@@ -17,6 +17,10 @@ export const data = {
       color: "white",
       opacity: 0.1,
     },
+  },
+  pixels: {
+    colors: new Uint32Array(128 * 128),
+    coordinates: new Uint16Array(128 * 128 * 2),
   },
   history: {
     index: 0,
@@ -35,8 +39,8 @@ export const data = {
   },
   client: {
     position: { x: -100, y: -100 },
-    lastPosition: { last_x: -100, last_y: -100 },
-    click: { x: -100, y: -100 },
+    clickDown: { x: -100, y: -100 },
+    clickUp: { x: -100, y: -100 },
   },
   mouseEvents: {
     isHolding: false,
@@ -44,6 +48,10 @@ export const data = {
   },
   layoutEvents: {
     showColorsBar: true,
+  },
+  events: {
+    canvasOnmMouseDown: false,
+    canvasOnMouseEnter: false,
   },
 } as const satisfies CanvasDataTypes;
 
@@ -80,6 +88,10 @@ export interface CanvasDataTypes {
       opacity: number;
     };
   };
+  pixels: {
+    colors: Uint32Array;
+    coordinates: Uint16Array;
+  };
   history: {
     index: number;
     stacks: number;
@@ -93,8 +105,8 @@ export interface CanvasDataTypes {
   };
   client: {
     position: { x: number; y: number };
-    lastPosition: { last_x: number; last_y: number };
-    click: { x: number; y: number };
+    clickDown: { x: number; y: number };
+    clickUp: { x: number; y: number };
   };
   mouseEvents: {
     isHolding: boolean;
@@ -102,5 +114,9 @@ export interface CanvasDataTypes {
   };
   layoutEvents: {
     showColorsBar: boolean;
+  };
+  events: {
+    canvasOnmMouseDown: boolean;
+    canvasOnMouseEnter: boolean;
   };
 }

@@ -2,19 +2,19 @@
 //
 //
 //
-import useStore from "@/store/store";
+import { CanvasDataTypes } from "@/store/data";
 //
 //
 import "@/styles/layout_grid.css";
+import { memo } from "react";
 //
 //
 //
 //
+type GridTypes = { canvas: CanvasDataTypes["canvas"] };
 //
-export const Grid = () => {
-  const canvas = useStore((e) => e.canvas);
-
-  const isVisible = canvas.grid.isVisible ? "visible" : "hidden";
+export const Grid = memo((props: GridTypes) => {
+  const { canvas } = props;
 
   return (
     <div
@@ -22,7 +22,7 @@ export const Grid = () => {
       style={{
         width: canvas.rect.width,
         height: canvas.rect.height,
-        visibility: isVisible,
+        visibility: canvas.grid.isVisible ? "visible" : "hidden",
         opacity: canvas.grid.opacity,
       }}
     >
@@ -47,4 +47,4 @@ export const Grid = () => {
       </svg>
     </div>
   );
-};
+});

@@ -6,13 +6,13 @@
 //
 //
 
-import { CanvasDataTypes, HistoryDataTypes } from "./data";
-import { SetType } from "./types";
+import { CanvasDataTypes, HistoryDataTypes } from "../data";
+import { SetActionType } from "../types";
 
 //
 
 //
-export const actions = (set: SetType): ActionsTypes => {
+export const Methods = (set: SetActionType): ActionsTypes => {
   return {
     methods: {
       setBoundingClientRect: (rect) => {
@@ -57,10 +57,13 @@ export const actions = (set: SetType): ActionsTypes => {
 export interface ActionsTypes {
   methods: {
     setBoundingClientRect: (e: CanvasDataTypes["canvas"]["rect"]) => void;
-
-    setCurrent: (key: keyof CanvasDataTypes["current"], value: any) => void;
     setHistory: (data: HistoryDataTypes[]) => void;
     setHistoryIndex: (index: number) => void;
+
+    setCurrent: <K extends keyof CanvasDataTypes["current"]>(
+      key: K,
+      value: CanvasDataTypes["current"][K]
+    ) => void;
 
     setClient: <K extends keyof CanvasDataTypes["client"]>(
       key: K,

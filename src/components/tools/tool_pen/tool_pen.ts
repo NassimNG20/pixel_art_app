@@ -1,7 +1,8 @@
 import { CanvasDataTypes } from "@/store/data";
-import { hexToUint32 } from "../utils/util_colorConvertor";
+import { hexToUint32 } from "../../utils/util_colorConvertor";
 import { ActionsTypes } from "@/store/actions/actions";
 import { PixelStoreTypes } from "@/store/actions/unitArray";
+import { brush } from "./tool_pen_options";
 
 export const Tool_Pen_Eraser = (props: Tool_Pen_Types) => {
   const { pixelsMethods, current, client, canvasSize, methods } = props;
@@ -16,20 +17,8 @@ export const Tool_Pen_Eraser = (props: Tool_Pen_Types) => {
 
   const getAffectedIndices = (x: number, y: number, toolSize: number) => {
     const baseIndices = [{ x, y }];
-    if (toolSize >= 2)
-      baseIndices.push(
-        { x: x + 1, y },
-        { x, y: y + 1 },
-        { x: x + 1, y: y + 1 }
-      );
-    if (toolSize >= 3)
-      baseIndices.push(
-        { x: x - 1, y },
-        { x, y: y - 1 },
-        { x: x - 1, y: y - 1 },
-        { x: x + 1, y: y - 1 },
-        { x: x - 1, y: y + 1 }
-      );
+
+    baseIndices.push(...brush({ x, y, toolSize }));
 
     return baseIndices
       .filter(({ x, y }) => isWithinBounds(x, y))

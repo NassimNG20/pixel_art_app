@@ -30,23 +30,54 @@ export const Methods = (set: SetActionType): ActionsTypes => {
       setCurrent: (key, value) => {
         set((e) => ({ current: { ...e.current, [key]: value } }));
       },
-      setHistoryIndex: (index: number) => {
-        set((e) => ({ history: { ...e.history, index } }));
-      },
-      setHistory: (newData) => {
+      setPixels: (index) => {
         set((e) => {
           const { history } = e;
-          let Temp = [];
-          if (e.history.historyStack.length >= history.stacks) {
-            const historyStack = history.historyStack.slice(0, -1);
-            Temp = [...historyStack, newData];
-          } else Temp = [...history.historyStack, newData];
+          if (!history.historyStack[index]) return e;
+          const { hs_color, hs_coordinates } = history.historyStack[index];
+          return {
+            pixels: {
+              colors: new Uint32Array(hs_color),
+              coordinates: new Uint16Array(hs_coordinates),
+            },
+          };
+        });
+      },
 
+      setHistory: (newValue) => {
+        set((e) => {
+          const { history } = e;
+          const { historyStack, stacks } = history;
+
+          const newStack =
+            historyStack.length >= stacks
+              ? [...historyStack.slice(0, 1)]
+              : [...historyStack];
+          const addStack = {
+            hs_color: new Uint32Array(newValue.hs_color),
+            hs_coordinates: new Uint16Array(newValue.hs_coordinates),
+          };
           return {
             history: {
               ...history,
-              historyStack: Temp,
+              historyStack: [...newStack, addStack],
+              index: historyStack.length,
             },
+          };
+        });
+      },
+
+      setHistoryIndex: (ifCTRLZ) => {
+        set((e) => {
+          const { history } = e;
+          const min = Math.min(
+            history.index + ifCTRLZ,
+            history.historyStack.length - 1
+          );
+          const newIndex = Math.max(0, min);
+
+          return {
+            history: { ...history, index: newIndex },
           };
         });
       },
@@ -57,8 +88,10 @@ export const Methods = (set: SetActionType): ActionsTypes => {
 export interface ActionsTypes {
   methods: {
     setBoundingClientRect: (e: CanvasDataTypes["canvas"]["rect"]) => void;
-    setHistory: (data: HistoryDataTypes[]) => void;
-    setHistoryIndex: (index: number) => void;
+    setHistoryIndex: (e: -1 | 1) => void;
+    setPixels: (e: number) => void;
+
+    setHistory: (e: HistoryDataTypes) => void;
 
     setCurrent: <K extends keyof CanvasDataTypes["current"]>(
       key: K,

@@ -11,7 +11,7 @@
 import { useLoop } from "@/hooks/useLoop";
 import { ActionsTypes } from "@/store/actions/actions";
 import { CanvasDataTypes } from "@/store/data";
-import { Tool_Pen_Eraser } from "../tools/tool_pen";
+import { Tool_Pen_Eraser } from "../tools/tool_pen/tool_pen";
 import { SelectedPixel } from "../utils/util_selectedPixel";
 
 import { PixelStoreTypes } from "@/store/actions/unitArray";
@@ -30,6 +30,7 @@ export const useLoopWrapper = (props: UseLoopWrapperTypes) => {
     pixelsMethods,
     pixels,
   } = props;
+
   const { x, y } = client.position;
   const { clickDown } = client;
 
@@ -48,7 +49,8 @@ export const useLoopWrapper = (props: UseLoopWrapperTypes) => {
       methods.setBoundingClientRect(newBoundingRect);
     }
 
-    renderPixelData(ctx, pixels.colors, pixels.coordinates);
+    usePixelRenderer(ctx, pixels.colors, pixels.coordinates);
+
     if (!mouseEvents.isMouseEnter) return;
 
     const options = {
@@ -80,13 +82,6 @@ export const useLoopWrapper = (props: UseLoopWrapperTypes) => {
   return { canvasRef };
 };
 //
-const renderPixelData = (
-  ctx: CanvasRenderingContext2D,
-  colors: Uint32Array,
-  coordinates: Uint16Array
-) => {
-  usePixelRenderer(ctx, colors, coordinates);
-};
 //
 interface UseLoopWrapperTypes {
   methods: ActionsTypes["methods"];
@@ -97,4 +92,5 @@ interface UseLoopWrapperTypes {
   current: CanvasDataTypes["current"];
   canvas: CanvasDataTypes["canvas"];
   pixels: CanvasDataTypes["pixels"];
+  history: CanvasDataTypes["history"];
 }

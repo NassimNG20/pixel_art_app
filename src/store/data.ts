@@ -1,6 +1,6 @@
 export const data = {
   canvas: {
-    size: 128,
+    size: 32,
     scale: 1,
     rect: {
       x: 0,
@@ -24,8 +24,13 @@ export const data = {
   },
   history: {
     index: 0,
-    stacks: 5,
-    historyStack: [],
+    stacks: 20,
+    historyStack: [
+      {
+        hs_color: new Uint32Array(128 * 128),
+        hs_coordinates: new Uint16Array(128 * 128 * 2),
+      },
+    ],
   },
   tools: [
     { name: "pen", size: 1 },
@@ -66,7 +71,10 @@ export type ToolType = {
   name: "pen" | "square" | "eraser";
   size: number;
 };
-export type HistoryDataTypes = Uint16Array | Uint32Array;
+export type HistoryDataTypes = {
+  hs_color: Uint32Array;
+  hs_coordinates: Uint16Array;
+};
 
 export interface CanvasDataTypes {
   canvas: {
@@ -95,7 +103,7 @@ export interface CanvasDataTypes {
   history: {
     index: number;
     stacks: number;
-    historyStack: readonly HistoryDataTypes[][];
+    historyStack: HistoryDataTypes[];
   };
   tools: ToolType[];
   current: {

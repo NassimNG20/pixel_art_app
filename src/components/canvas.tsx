@@ -3,11 +3,11 @@ import { useShallow } from "zustand/react/shallow";
 
 import "@/styles/canvas.css";
 
-import { useLoopWrapper } from "./canvas/canvasLoop";
+import { useLoopWrapper } from "@/components/canvas/canvasLoop";
 import { useCanvasEvents } from "@/hooks/useCanvasEvents";
+import { useEffect } from "react";
 
 export const Canvas = () => {
-  /** Extract store state */
   const {
     methods,
     canvas,
@@ -16,36 +16,43 @@ export const Canvas = () => {
     current,
     mouseEvents,
     pixels,
+    history,
   } = useStore(
-    useShallow((state) => ({
-      methods: state.methods,
-      canvas: state.canvas,
-      pixelsMethods: state.pixelsMethods,
-      events: state.events,
-      client: state.client,
-      current: state.current,
-      mouseEvents: state.mouseEvents,
-      pixels: state.pixels,
+    useShallow((e) => ({
+      canvas: e.canvas,
+      client: e.client,
+      pixels: e.pixels,
+      methods: e.methods,
+      current: e.current,
+      history: e.history,
+      mouseEvents: e.mouseEvents,
+      pixelsMethods: e.pixelsMethods,
     }))
   );
 
   const { canvasRef } = useLoopWrapper({
     canvas,
     client,
+    pixels,
     current,
     methods,
+    history,
     mouseEvents,
     pixelsMethods,
-    pixels,
   });
 
   const canvasEvents = useCanvasEvents({
-    methods,
     client,
-    pixelsMethods,
     canvas,
+    pixels,
+    methods,
     current,
+    pixelsMethods,
   });
+
+  useEffect(() => {
+    methods.setPixels(history.index);
+  }, [history.index]);
 
   return (
     <canvas
@@ -53,8 +60,8 @@ export const Canvas = () => {
       ref={canvasRef}
       width={canvas.size}
       height={canvas.size}
-      onMouseDown={canvasEvents.handleOnMouseDown}
       onMouseUp={canvasEvents.handleOnMouseUp}
+      onMouseDown={canvasEvents.handleOnMouseDown}
       onMouseEnter={canvasEvents.handleOnMouseEnter}
       onMouseLeave={canvasEvents.handleOnMouseLeave}
     />

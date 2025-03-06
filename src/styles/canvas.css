@@ -8,4 +8,5 @@
   width: 500px;
   image-rendering: pixelated;
   z-index: var(--index_canvas);
+  outline: 1px solid #ffffff17;
 }
